@@ -124,28 +124,18 @@ h1 {
   position: fixed;
   top: 0;
   bottom: 0;
-  width: 220px; /* enough for photos */
+  width: 220px; /* default for desktop */
   pointer-events: auto;
   z-index: 0; /* behind main content */
-}
-
-/* Left side column */
-#gallery.left {
-  left: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around; /* spreads photos evenly vertically */
-  align-items: center;
-}
-
-/* Right side column */
-#gallery.right {
-  right: 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
 }
+
+/* Left & Right side columns */
+#gallery.left { left: 10px; }
+#gallery.right { right: 10px; }
 
 .floating-photo {
   width: 150px;
@@ -154,19 +144,11 @@ h1 {
   border-radius: 12px;
   transition: transform 0.3s ease;
   cursor: pointer;
-  z-index: 0; /* stays behind content */
+  z-index: 0;
 }
 
-/* Hover scale only */
 .floating-photo:hover {
   transform: scale(1.1);
-}
-
-
-@keyframes drift {
-  0% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(30px, -30px) scale(1.05); }
-  100% { transform: translate(-20px, 20px) scale(1); }
 }
 
 /* Love note */
@@ -190,6 +172,9 @@ h1 {
   position: relative;
   margin: 20px 0;
   z-index: 2;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 button {
@@ -203,19 +188,13 @@ button {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-#yesBtn {
-  background: #ff2f6d;
-  color: white;
-  box-shadow: 0 6px 14px rgba(255,47,109,0.4);
-}
-
+#yesBtn { background: #ff2f6d; color: white; box-shadow: 0 6px 14px rgba(255,47,109,0.4); }
 #yesBtn:hover { transform: scale(1.1); }
 
 #noBtn { background: #888; color: white; position: absolute; }
-
 button:hover { box-shadow: 0 6px 14px rgba(0,0,0,0.2); }
 
-/* Puzzle with glow */
+/* Puzzle */
 #puzzleContainer {
   display: none;
   margin-top: 20px;
@@ -254,33 +233,47 @@ button:hover { box-shadow: 0 6px 14px rgba(0,0,0,0.2); }
   position: relative;
 }
 
-@keyframes cheerBounce {
-  from { transform: translateY(0); }
-  to { transform: translateY(-10px); }
-}
-
-/* Final message zoom */
+/* Final message */
 #finalMessage {
   display: none;
-  place-items: center; /* shorthand for align-items + justify-items */
   text-align: center;
   font-size: 26px;
   font-weight: 900;
   color: #ff2f6d;
-  line-height: 1.8;      /* more space between lines */
-  word-spacing: 4px;     /* more space between words */
-  white-space: pre-line; /* respect \n */
+  line-height: 1.8;
+  word-spacing: 4px;
+  white-space: pre-line;
   margin: 20px;
   min-height: 60px;
   z-index: 10;
   position: relative;
   animation: zoomIn 2s ease forwards;
-  
 }
 
 @keyframes zoomIn {
   from { transform: scale(0.7); opacity: 0; }
   to { transform: scale(1.1); opacity: 1; }
+}
+
+/* MOBILE RESPONSIVE */
+@media (max-width: 768px) {
+  #gallery { width: 100px; }
+  .floating-photo { width: 100px; height: 140px; margin: 5px 0; }
+  h1 { font-size: 22px; padding: 0 10px; }
+  #finalMessage { font-size: 20px; margin: 10px; line-height: 1.5; }
+  #loveNote { font-size: 20px; padding: 8px 14px; }
+  button { width: 60%; font-size: 16px; padding: 12px 20px; margin: 8px auto; }
+  #puzzle { width: 80vw; height: 80vw; }
+}
+
+@media (max-width: 480px) {
+  #gallery { width: 80px; }
+  .floating-photo { width: 80px; height: 110px; }
+  h1 { font-size: 18px; }
+  #finalMessage { font-size: 18px; line-height: 1.4; }
+  #loveNote { font-size: 16px; padding: 6px 10px; }
+  button { width: 80%; font-size: 14px; padding: 10px 16px; }
+  #puzzle { width: 90vw; height: 90vw; }
 }
 </style>
 </head>
@@ -293,34 +286,7 @@ button:hover { box-shadow: 0 6px 14px rgba(0,0,0,0.2); }
 
 <script>
 const music = new Audio('music.mp3');
-
-document.getElementById('playMusicBtn').addEventListener('click', () => {
-    music.play();
-});
-</script>
-
-
-<script>
-// Hearts
-for (let i = 0; i < 25; i++) {
-  const heart = document.createElement('div');
-  heart.className = 'heart';
-  heart.innerHTML = '❤️';
-  heart.style.left = Math.random() * 100 + 'vw';
-  heart.style.animationDuration = (4 + Math.random() * 4) + 's';
-  document.body.appendChild(heart);
-}
-
-// Stickers
-const stickers = ['🐻','⭐','💖','🧸'];
-for (let i = 0; i < 12; i++) {
-  const s = document.createElement('div');
-  s.className = 'sticker';
-  s.innerHTML = stickers[i % stickers.length];
-  s.style.left = Math.random() * 100 + 'vw';
-  s.style.top = Math.random() * 100 + 'vh';
-  document.body.appendChild(s);
-}
+document.getElementById('playMusicBtn').addEventListener('click', () => { music.play(); });
 </script>
 
 <div id="gallery" class="left">
