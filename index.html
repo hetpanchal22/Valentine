@@ -169,30 +169,38 @@ h1 {
 
 /* Buttons */
 .button-area {
-  position: relative;
-  margin: 20px 0;
-  z-index: 2;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
+position: relative;
+margin: 20px 0;
+z-index: 2;
 }
+
 
 button {
-  padding: 14px 28px;
-  font-size: 18px;
-  margin: 10px;
-  z-index: 2;
-  border: none;
-  border-radius: 30px;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+padding: 14px 28px;
+font-size: 18px;
+margin: 10px;
+border: none;
+border-radius: 30px;
+cursor: pointer;
+transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-#yesBtn { background: #ff2f6d; color: white; box-shadow: 0 6px 14px rgba(255,47,109,0.4); }
+
+#yesBtn {
+background: #ff2f6d;
+color: white;
+box-shadow: 0 6px 14px rgba(255,47,109,0.4);
+}
+
+
 #yesBtn:hover { transform: scale(1.1); }
 
+
 #noBtn { background: #888; color: white; position: absolute; }
+
+
 button:hover { box-shadow: 0 6px 14px rgba(0,0,0,0.2); }
+
 
 /* Puzzle */
 #puzzleContainer {
@@ -325,7 +333,9 @@ const notes = [
   "I fall for you more every day 😘",
   "Forever us 🥰",
   "You make my world brighter ✨",
-  "My best memories are with you 💖"
+  "My best memories are with you 💖",
+  "You make my heart beat 😍", 
+  "You are like a fine wine 🍾, you become more beautiful everyday 🥵"
 ];
 
 const loveNote = document.getElementById('loveNote');
@@ -405,19 +415,21 @@ function fireworks(){
 // No button
 const noBtn=document.getElementById('noBtn');
 noBtn.addEventListener('mouseover',()=>{
-  const x=Math.random()*(window.innerWidth-100);
-  const y=Math.random()*(window.innerHeight-60);
-  noBtn.style.left=x+'px';
-  noBtn.style.top=y+'px';
+const x=Math.random()*(window.innerWidth-100);
+const y=Math.random()*(window.innerHeight-60);
+noBtn.style.left=x+'px';
+noBtn.style.top=y+'px';
 });
+
 
 // Yes button
 
+
 document.getElementById('yesBtn').onclick=()=>{
-  confettiExplosion();
-  document.body.classList.add('blur');
-  document.getElementById('puzzleContainer').style.display='block';
-  createPuzzle();
+confettiExplosion();
+document.body.classList.add('blur');
+document.getElementById('puzzleContainer').style.display='block';
+createPuzzle();
 };
 
 // Puzzle
