@@ -1,3 +1,10 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Valentine ❤️</title>
+
 <style>
 /* --- General --- */
 body {
@@ -275,3 +282,242 @@ button:hover { box-shadow: 0 6px 14px rgba(0,0,0,0.2); }
   background-repeat: no-repeat;
 }
 </style>
+
+</head>
+
+<body>
+
+<h1>Hetu ❤️ Your Love — Be My Valentine?</h1>
+
+<button id="playMusicBtn">I think they call this love ❤️ </button>
+
+<script>
+const music = new Audio('music.mp3');
+document.getElementById('playMusicBtn').addEventListener('click', () => { music.play(); });
+</script>
+
+<div id="gallery" class="left">
+  <img class="floating-photo" src="photo1.jpg">
+  <img class="floating-photo" src="photo2.jpg">
+  <img class="floating-photo" src="photo3.jpg">
+  <img class="floating-photo" src="photo4.jpg">
+</div>
+
+<div id="gallery" class="right">
+  <img class="floating-photo" src="photo5.jpg">
+  <img class="floating-photo" src="photo6.jpg">
+  <img class="floating-photo" src="photo7.jpg">
+  <img class="floating-photo" src="photo8.jpg">
+</div>
+
+<div id="loveNote"></div>
+
+<div class="button-area">
+  <button id="yesBtn">Yes 💖</button>
+  <button id="noBtn">No 🙈</button>
+</div>
+
+<div id="puzzleContainer">
+  <h2>Solve our love puzzle 🧩</h2>
+  <div id="puzzle"></div>
+</div>
+
+<div id="cheer">🥰🎉</div>
+<div id="finalMessage"></div>
+
+<script>
+const notes = [
+  "You are my favorite person ❤️",
+  "Every photo with you is my treasure 💕",
+  "I fall for you more every day 😘",
+  "Forever us 🥰",
+  "You make my world brighter ✨",
+  "My best memories are with you 💖",
+  "You make my heart beat 😍", 
+  "You are like a fine wine 🍾, you become more beautiful everyday 🥵"
+];
+
+const loveNote = document.getElementById('loveNote');
+
+// Sparkle
+function sparkle(x,y){
+  for(let i=0;i<6;i++){
+    const sp=document.createElement('div');
+    sp.className='sparkle';
+    sp.innerHTML='✨';
+    sp.style.left=x+(Math.random()*20-10)+'px';
+    sp.style.top=y+(Math.random()*20-10)+'px';
+    document.body.appendChild(sp);
+    setTimeout(()=>sp.remove(),800);
+  }
+}
+
+// Photos
+const photos=document.querySelectorAll('#gallery img');
+photos.forEach((img,i)=>{
+  img.style.left=Math.random()*80+'vw';
+  img.style.top=Math.random()*80+'vh';
+  img.addEventListener('mouseenter',e=>{
+    loveNote.innerText=notes[i%notes.length];
+    loveNote.style.display='block';
+    sparkle(e.clientX,e.clientY);
+  });
+  img.addEventListener('mouseleave',()=>{
+    loveNote.style.display='none';
+  });
+});
+
+// Confetti
+function confettiExplosion(){
+  for(let i=0;i<120;i++){
+    const c=document.createElement('div');
+    c.className='confetti';
+    c.style.left=Math.random()*100+'vw';
+    c.style.background=`hsl(${Math.random()*360},100%,60%)`;
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),3000);
+  }
+}
+
+// Fireworks finale
+function fireworks(){
+  const numBursts = 5; // number of fireworks
+  const numParticles = 25; // particles per firework
+
+  for(let i=0; i<numBursts; i++){
+    const x = Math.random() * window.innerWidth;
+    const y = Math.random() * window.innerHeight / 2;
+
+    for(let j=0; j<numParticles; j++){
+      const f = document.createElement('div');
+      f.className = 'firework';
+      f.style.left = x + 'px';
+      f.style.top = y + 'px';
+      f.style.background = `hsl(${Math.random()*360},100%,60%)`;
+
+      const angle = Math.random() * Math.PI * 2;
+      const dist = 80 + Math.random() * 50;
+
+      f.style.setProperty('--x', Math.cos(angle) * dist + 'px');
+      f.style.setProperty('--y', Math.sin(angle) * dist + 'px');
+
+      document.body.appendChild(f);
+
+      // remove after animation ends
+      setTimeout(() => f.remove(), 1000);
+    }
+  }
+}
+
+
+
+// No button
+const noBtn=document.getElementById('noBtn');
+noBtn.addEventListener('mouseover',()=>{
+const x=Math.random()*(window.innerWidth-100);
+const y=Math.random()*(window.innerHeight-60);
+noBtn.style.left=x+'px';
+noBtn.style.top=y+'px';
+});
+
+
+// Yes button
+
+
+document.getElementById('yesBtn').onclick=()=>{
+confettiExplosion();
+document.body.classList.add('blur');
+document.getElementById('puzzleContainer').style.display='block';
+createPuzzle();
+};
+
+// Puzzle
+let tiles=[];let selected=null;
+function createPuzzle(){
+  const puzzle=document.getElementById('puzzle');
+  puzzle.innerHTML='';tiles=[];
+  for(let i=0;i<9;i++){
+    const tile=document.createElement('div');
+    tile.className='tile';
+    tile.style.backgroundPosition=`${-(i%3)*100}px ${-Math.floor(i/3)*100}px`;
+    tiles.push(tile);
+  }
+  tiles.sort(()=>Math.random()-0.5);
+  tiles.forEach((tile,i)=>{
+    tile.onclick=()=>swapTile(i);
+    puzzle.appendChild(tile);
+  });
+}
+
+function swapTile(i){
+  if(selected===null){selected=i;tiles[i].style.border='3px solid red';}
+  else{
+    [tiles[selected],tiles[i]]=[tiles[i],tiles[selected]];
+    selected=null;redrawPuzzle();checkSolved();
+  }
+}
+
+function redrawPuzzle(){
+  const puzzle=document.getElementById('puzzle');
+  puzzle.innerHTML='';
+  tiles.forEach((tile,i)=>{
+    tile.style.border='none';
+    tile.onclick=()=>swapTile(i);
+    puzzle.appendChild(tile);
+  });
+}
+
+function typeMessage(text) {
+  const el = document.getElementById('finalMessage');
+  el.style.display = 'block';
+  el.innerHTML = ''; // clear previous content
+
+  // Split by space and newline, but keep newlines
+  const words = text.split(/(\s+)/); // splits by spaces but keeps them in array
+  let i = 0;
+
+  const interval = setInterval(() => {
+    let word = words[i];
+
+    if (word === '\n') {
+      el.innerHTML += '<br>'; // newline
+    } else {
+      // replace spaces with &nbsp; to keep spacing
+      el.innerHTML += word.replace(/ /g, '&nbsp;');
+    }
+
+    i++;
+    if (i >= words.length) clearInterval(interval);
+  }, 250); // 250ms per word, adjust for speed
+}
+
+
+function checkSolved() {
+  let solved = true;
+  tiles.forEach((tile, i) => {
+    const correctX = -(i % 3) * 100;
+    const correctY = -Math.floor(i / 3) * 100;
+    if (tile.style.backgroundPosition !== `${correctX}px ${correctY}px`) {
+      solved = false;
+    }
+  });
+
+  if (solved) {
+    // hide puzzle and remove blur
+    document.getElementById("puzzleContainer").style.display = "none";
+    document.body.classList.remove("blur");
+    document.body.style.filter = "none";
+
+    // Fireworks & confetti
+    fireworks();
+    confettiExplosion();
+
+
+    // show final message with typing
+    typeMessage("❤️ I knew you will say yes \nYou will forever be my valentine \nI love you more Harshu ❤️ \nHappy Valentine's Day baby ❤️");
+  }
+}
+</script>
+
+</body>
+</html>
